@@ -1,0 +1,100 @@
+@font-face {
+    font-family: "Reboto";
+    src: url("../fonts/Roboto-Regular.ttf")
+}
+
+*{
+    font-family: "Reboto";
+}
+
+.side__menu{
+    margin: 0px;
+    display: flex;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.side__menu .menu{
+    display: none;
+    position: absolute;
+    background: #2F3437;
+    right: 0;
+    top: 0;
+    height: 100%;
+}
+
+.side__menu .menu.show{
+    display: block;
+}
+
+.side__menu .foraDoMenu{
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+}
+
+.side__menu .foraDoMenu.show{
+    display: block;
+}
+
+@keyframes abrindo-menu{
+    0%{
+        width: 0px;
+    }
+    100%{
+        width: 30vh;
+    }
+}
+
+@keyframes fechando-menu {
+    0%{
+        width: 30vh;
+    }
+    100%{
+        width: 0;
+    }
+}
+
+.informacoes_usuario{
+    display: grid;
+    align-items: flex-start;
+    width: 100%;
+    height: 230px;
+    background: #1E1E1E;
+    padding: 10px;
+}
+
+.user__data{
+    display: flex;
+    align-items: center;
+    height: 90px;
+}
+
+.user__data img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.user__info{
+    margin-left: 10px;
+}
+
+.user__data .user__info h3{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    color: #FFFFFF;
+}
+
+.user__data .user__info p{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    color: #FFFFFF;
+}
