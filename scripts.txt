@@ -1,0 +1,21 @@
+CREATE DATABASE mov;
+
+USE mov;
+
+CREATE TABLE filmes(
+	id int not null AUTO_INCREMENT,
+    nome varchar(35) not null,
+    genero varchar(20) not null,
+    cover varchar(255),
+    faixarEtaria varchar(6) not null,
+    dataLanc date not null,
+    PRIMARY KEY(id)
+);
+
+ALTER TABLE filmes MODIFY genero varchar(50) not null; 
+ALTER TABLE filmes ADD COLUMN type varchar(6) not null;
+
+SELECT TO_BASE64(cover) FROM `filmes`; 
+SELECT genero FROM filmes GROUP BY genero; 
+
+SELECT * FROM filmes WHERE genero LIKE 'Te%' && nome LIKE 'Hallo%';

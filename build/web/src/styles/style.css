@@ -15,7 +15,6 @@ body {
     width: 100%;
     height: 100%;
     background: #2E4353;
-    overflow: hidden;
 }
 
 #row{
@@ -152,7 +151,6 @@ body {
 }
 
 .cad__text{
-    font-family: Roboto;
     font-style: normal;
     font-weight: bold;
     font-size: 14px;
@@ -194,6 +192,10 @@ body {
 .home__page__header ul li:hover{
     color: #2F8CF9;
     cursor: pointer;
+}
+
+.home__page__header ul li#active{
+    color: #2F8CF9 !important;
 }
 
 .home__page__header .menu__button{
@@ -243,6 +245,14 @@ body {
 
 /* Filmes principais */
 
+.secao-filmes .filmes__destaque{
+    display: none;
+}
+
+.secao-filmes.active .filmes__destaque{
+    display: block;
+}
+
 .filmes__destaque{
     margin: 5vh 12vh;
 }
@@ -271,6 +281,11 @@ body {
 
 .img__card__big{
     position: relative;
+    display: none;
+}
+
+.img__card__big.active {
+    display: block;
 }
 
 .img__card__big img{
@@ -335,4 +350,85 @@ body {
 .botao__assistir:hover{
     background-color: #db483c;
     cursor: pointer;
+}
+
+.img__card__medium{
+    position: relative;
+}
+
+.img__card__medium img{
+    object-fit: cover;
+    width: 300px;
+    height: 155px;
+    border-radius: 25px;
+}
+
+.img__card__medium .txt_box{
+    display: block;
+    position: absolute;
+    left: 15px;
+    top: 80px;
+}
+
+.img__card__medium .txt_box .name{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    color: #FFFFFF;
+}
+
+.img__card__medium .txt_box .year{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 6px;
+    line-height: 7px;
+    color: #070707;
+}
+
+.info-movie-row{
+    display: none;
+    padding: 10px;
+    color: #fff;
+}
+
+.info-movie-row.active {
+    display: block;
+}
+
+.info-movie-row  .name_mov{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+}
+
+.info-movie-row .small-line{
+    width: 33.02px;
+    height: 0px;
+    border: 1px solid #FFFFFF;
+    transform: rotate(-90deg);
+}
+
+.info-movie-row .year_mov{
+    font-style: bold;
+    font-weight: 500;
+    font-size: 22px;
+}
+
+.info-movie-row .genre_mov{
+    font-weight: 500;
+    font-size: 22px;
+    color: #FFFFFF;
+}
+
+.info-movie-row .genres_mov{
+    font-weight: 500;
+    font-size: 14px;
+    color: #9F9F9F;
+}
+
+.grid-movie {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 320px);
+    justify-content: center;
 }

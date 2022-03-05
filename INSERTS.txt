@@ -1,0 +1,31 @@
+/* filme 1 */
+INSERT INTO filmes (nome, genero, cover, faixarEtaria, dataLanc, type) 
+VALUES ("Joker",'Drama', 'http://www.meewella.com/critic/images/film/20191005-joker.jpg','+18','03-10-2019', 'FILME');
+
+/* filme 2 */
+INSERT INTO filmes (nome, genero, cover, faixarEtaria, dataLanc, type) 
+VALUES ("The Batman",'Ação, Aventura', 'https://deuclick.com.br/wp-content/uploads/2022/03/the-batman-3.jpg','16','03-03-2022', 'FILME');
+
+/* filme 3 */
+INSERT INTO filmes (nome, genero, cover, faixarEtaria, dataLanc, type) 
+VALUES ("Dragon Ball Super: Broly",'Anime, Luta', 'https://uploads.jovemnerd.com.br/wp-content/uploads/2019/03/dragon-ball-super-broly-cenas-deletadas-1210x540.png','Livre','03-01-2019', 'FILME');
+
+/* filme 4 */
+INSERT INTO filmes (nome, genero, cover, faixarEtaria, dataLanc, type) 
+VALUES ("Halloween Kills: O Terror Continua",'Terror', 'https://d17lbu6bbzbdc8.cloudfront.net/wp-content/uploads/2021/06/25091950/maxresdefault-3.jpg','18','14-10-2021', 'FILME');
+
+/* filme 5 */
+INSERT INTO filmes (nome, genero, cover, faixarEtaria, dataLanc, type) 
+VALUES ("Resident Evil: Bem-Vindo a Raccoon City",'Terror, Ação', 'https://tusresiduos.com/wp-content/uploads/2021/12/resident-evil-WTRC-characters.jpg','16','2021-12-02', 'FILME');
+
+/* filme 6 */
+INSERT INTO filmes (nome, genero, cover, faixarEtaria, dataLanc, type) 
+VALUES ("Megatubarão",'Terror, Ficção científica', 'https://javiu.files.wordpress.com/2018/09/megatubaracc83o-filme-critica-vale-a-pena-cinema.jpg','14','2018-06-09', 'FILME');
+
+/* filme 7 */
+INSERT INTO filmes (nome, genero, cover, faixarEtaria, dataLanc, type) 
+VALUES ("Uma Noite de Crime",'Terror, Thriller, Violência', 'https://thumbs.jusbr.com/imgs.jusbr.com/publications/images/0a4edd9adab1cd2f9391514d1d6abf59','14','2013-11-01', 'FILME');
+
+/* filme 8 */
+INSERT INTO filmes (nome, genero, cover, faixarEtaria, dataLanc, type) 
+VALUES ("It - A Coisa",'Terror, Thriller, Violência', 'https://quartaparede.s3.us-east-2.amazonaws.com/wp-content/uploads/2019/08/30202657/pennywise-752x440.jpg','16','2018-09-07', 'FILME');

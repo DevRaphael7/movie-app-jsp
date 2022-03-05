@@ -1,30 +1,33 @@
+<%-- 
+    Document   : search-page
+    Created on : Mar 5, 2022, 6:37:06 PM
+    Author     : rapha
+--%>
 <%@page import="JDBC.ConnectionFactory" %> 
 <%@page import="models.Filme" %>
 <%@page import="java.util.ArrayList" %>
-<%@page import="java.time.LocalDate" %>
-<%@page language="java" contentType="text/html" pageEncoding="UTF-8" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-    <!DOCTYPE html>
-    <html lang="pt-BR">
-
+<!DOCTYPE html>
+<html lang="pt-BR">
     <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="../styles/style.css">
         <link rel="stylesheet" href="../styles/side-menu.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-        <title>Página principal</title>
+        <title>Pesquisa</title>
     </head>
-
     <body>
-        
         <% 
             ConnectionFactory conexao = new ConnectionFactory();
-            ArrayList<Filme> allMovies = conexao.getMoviesDataBase("SELECT * FROM filmes WHERE type = 'FILME'");
-            LocalDate dataAtual = LocalDate.now();
+            String valorPesquisa = request.getParameter("searchField");
+            ArrayList<Filme> allMovies = conexao.getMoviesDataBase(
+                "SELECT * FROM filmes WHERE LOWER(genero) LIKE '" + valorPesquisa.toLowerCase() + "%'" +
+                "|| LOWER(nome) LIKE '" + valorPesquisa.toLowerCase() + "%'" +
+                "|| SUBSTRING_INDEX(dataLanc, '-', 1) = '" + valorPesquisa.toLowerCase() + "'" +
+                "LOWER(SUBSTRING_INDEX(nome, ' ', 1)) LIKE '" + valorPesquisa.toLowerCase() + "';"
+            );
         %>
-
         <nav class="side__menu">
             <div class="foraDoMenu" foraMenu onclick="openSideMenu()"></div>
             <div class="menu" id="sideMenu">
@@ -46,10 +49,6 @@
         </nav>
         
         <header class="home__page__header" headerPage>
-            <ul>
-                <li active id="active">Filmes</li>
-                <li active>Series</li>
-            </ul>
             <form name="formularioPesquisa" method="post" action="search-page.jsp">
                 <div class="search__bar">
                     <input type="search" placeholder="Busca" name="searchField">
@@ -67,179 +66,23 @@
             </button>
         </header>
 
-        <!-- Filmes -->
-        <section class="secao-filmes active" id="detaqueMovie"secaoFilme>
-            <div class="filmes__destaque">
-                <h3>Destaque</h3>
-                <div id="row" style="justify-content: space-around; align-items: center;">
-                    <i class="fa-solid fa-chevron-left" id="img-scroll-left-f"></i>
-                    <% for(Filme item : allMovies){ %>
-
-                    <% if(Integer.parseInt(item.getDataLancamento().split("-")[0]) == dataAtual.getYear() 
-                        &&
-                        Integer.parseInt(item.getDataLancamento().split("-")[1]) == dataAtual.getMonthValue()) { %>
-                    <div class="img__card__big" imgRowF>
-                        <img
-                            src="<%= item.getCover() %>">
+        <section style="padding: 5vh;">
+            <p class="boas__vindas__txt"><strong>Pesquisado por: <%= valorPesquisa %></strong></p>
+            <div class="grid-movie">
+                <% for(Filme mov: allMovies){ %>
+                    <div class="img__card__medium" style="margin-left: 10px;">
+                        <img src="<%= mov.getCover() %>">
                         <div class="txt_box">
-                            <p class="name"><%= item.getNome() %></p>
-                            <p class="year"><%= item.getDataLancamento() %></p>
+                            <p class="name"><%= mov.getNome() %></p>
+                            <p class="year"><%= mov.getDataLancamento().split("-")[0] %></p>
                         </div>
-                        <div class="botao__assistir">
-                            <i class="fa-solid fa-play"></i>
-                            <p>Assistir</p>
-                        </div>
-                    </div>
-                    <div class="info-movie-row" infoMovF>
-                        <div id="row" style="align-items: center;">
-                            <p class="name_mov"><%= item.getNome() %></p>
-                            <div class="small-line"></div>
-                            <p class="year_mov"><%= item.getFaixaEtaria() %></p>
-                        </div>
-                        <div style="color: #fff;">
-                            <p class="genre_mov">Genero</p>
-                            <p class="genres_mov"><%= item.gerarStringDoGenero(item.getGenero()) %></p>
-                        </div>
-                    </div>
-                    <% } 
-                    }
-                    %>
-                    <i class="fa-solid fa-chevron-right" id="img-scroll-right-f"></i>
-                </div>
-            </div>
-
-            <div class="filmes__destaque">
-                <% for(String genre : conexao.getUniqueGenre()){ 
-                    if(genre == null){
-                        break;
-                    }
-                %>
-                    <h3 style="margin-top: 6.5vh;"><%= genre %></h3>
-                    <div id="row" style="justify-content: flex-start; align-items: center;">
-                        <% for(Filme filme : allMovies){ %>
-
-                                <% for(String generoDoFilme: filme.getGenero()){ 
-                                    if(generoDoFilme.equals(genre)){
-                                %>
-                                    
-                                    <div class="img__card__medium" style="margin-left: 10px;">
-                                        <img src="<%= filme.getCover() %>">
-                                        <div class="txt_box">
-                                            <p class="name"><%= filme.getNome() %></p>
-                                            <p class="year"><%= filme.getDataLancamento().split("-")[0] %></p>
-                                        </div>
-                                    </div>
-                                <% } 
-                                }
-                                %>
-                        <% } %>
                     </div>
                 <% } %>
             </div>
         </section>
-
-        <!-- Séries -->
-        <section class="secao-filmes" secaoFilme>
-            <div class="filmes__destaque">
-                <h3>Destaque</h3>
-                <div id="row" style="justify-content: space-around; align-items: center;">
-                    <i class="fa-solid fa-chevron-left" id="img-scroll-left-s"></i>
-                    <div class="img__card__big active" imgRowS>
-                        <img
-                            src="https://br.atsit.in/wp-content/uploads/2021/06/confira-o-primeiro-trailer-de-the-cuphead-show-aqui.jpg">
-                        <div class="txt_box">
-                            <p class="name">CUPHEAD - Show</p>
-                            <p class="year">2022</p>
-                        </div>
-                        <div class="botao__assistir">
-                            <i class="fa-solid fa-play"></i>
-                            <p>Assistir</p>
-                        </div>
-                    </div>
-                    <div class="img__card__big" imgRowS>
-                        <img
-                            src="https://marketresearchtelecast.com/wp-content/uploads/2021/06/1624338107_Demon-Slayer-Kimetsu-no-Yaiba-presents-its-final-cover-art.jpg">
-                        <div class="txt_box">
-                            <p class="name">Demon Slayer</p>
-                            <p class="year">2019</p>
-                        </div>
-                        <div class="botao__assistir">
-                            <i class="fa-solid fa-play"></i>
-                            <p>Assistir</p>
-                        </div>
-                    </div>
-                    <div class="info-movie-row active" infoMovS>
-                        <div id="row" style="align-items: center;">
-                            <p class="name_mov">Cuphead - Série</p>
-                            <div class="small-line"></div>
-                            <p class="year_mov">+18</p>
-                        </div>
-                        <div style="color: #fff;">
-                            <p class="genre_mov">Genero</p>
-                            <p class="genres_mov">Animação</p>
-                        </div>
-                    </div>
-                    <div class="info-movie-row" infoMovS>
-                        <div id="row" style="align-items: center;">
-                            <p class="name_mov">Demon Slayer</p>
-                            <div class="small-line"></div>
-                            <p class="year_mov">12</p>
-                        </div>
-                        <div style="color: #fff;">
-                            <p class="genre_mov">Genero</p>
-                            <p class="genres_mov">Anime, Luta</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-chevron-right" id="img-scroll-right-s"></i>
-                </div>
-            </div>
         
-            <div class="filmes__destaque">
-                <h3>Terror</h3>
-                <div id="row" style="justify-content: space-around; align-items: center;">
-                    <div class="img__card__medium">
-                        <img src="https://i.ytimg.com/vi/U9W85p8n-mE/maxresdefault.jpg">
-                        <div class="txt_box">
-                            <p class="name">Stranger Things</p>
-                            <p class="year">2019</p>
-                        </div>
-                    </div>
-                    <div class="img__card__medium">
-                        <img src="https://i.ytimg.com/vi/U9W85p8n-mE/maxresdefault.jpg">
-                        <div class="txt_box">
-                            <p class="name">Stranger Things</p>
-                            <p class="year">2019</p>
-                        </div>
-                    </div>
-                    <div class="img__card__medium">
-                        <img src="https://i.ytimg.com/vi/U9W85p8n-mE/maxresdefault.jpg">
-                        <div class="txt_box">
-                            <p class="name">Stranger Things</p>
-                            <p class="year">2019</p>
-                        </div>
-                    </div>
-                    <div class="img__card__medium">
-                        <img src="https://i.ytimg.com/vi/U9W85p8n-mE/maxresdefault.jpg">
-                        <div class="txt_box">
-                            <p class="name">Stranger Things</p>
-                            <p class="year">2019</p>
-                        </div>
-                    </div>
-                    <div class="img__card__medium">
-                        <img src="https://i.ytimg.com/vi/U9W85p8n-mE/maxresdefault.jpg">
-                        <div class="txt_box">
-                            <p class="name">Stranger Things</p>
-                            <p class="year">2019</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
         <script src="../scripts/sideMenu.js"></script>
         <script src="../scripts/homePage.js"></script>
         <script src="../scripts/searchBar.js"></script>
     </body>
-
-    </html>
+</html>
