@@ -5,15 +5,19 @@ const mensagemDeError = document.querySelectorAll("[error]")
 const inputForm = document.querySelectorAll("[fieldForm]")
 const submitButton = document.getElementById("submitButton")
 const passwordHideBtn = document.getElementById("passBtn")
+const errorFormRequest = document.querySelector('[errorRequest]')
 
 let hideOrShowPassword = false;
 
-console.log(inputForm)
-
 form.addEventListener('submit', e => {
+    errorFormRequest.innerHTML  = ""
     if(!validarFormulario()){
         e.preventDefault();
+        return
     }
+    
+    postLoginUser()
+    e.preventDefault();
 })
 
 function validarFormulario() {
@@ -32,7 +36,6 @@ function validarFormulario() {
     } else {
         setMensagemDeError(1, "Senha não informada!", true)
     }
-
     return true
 }
 
@@ -59,4 +62,35 @@ function changeTypeInputPassword() {
         //passwordHideBtn.innerHTML = '<i class="fa-solid fa-eye"></i>'
         passwordHideBtn.innerHTML = '<i class="fa-solid fa-lock"></i>'
     }
+}
+
+var ajaxRequest = new window.XMLHttpRequest();
+
+function postLoginUser(){
+    if (window.XMLHttpRequest) {
+        ajaxRequest = new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+        ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    
+    ajaxRequest.open('POST', "http://localhost:8080/projeto_faculdade/loginDataBase", true)
+    ajaxRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+    ajaxRequest.send(`usuario=${formUser.value}&senha=${formPassword.value}`)
+    ajaxRequest.onreadystatechange = setTimeout(() => respostaDoServidor(), 500)
+}
+
+function respostaDoServidor() {
+    var resposta = ajaxRequest.responseText
+    if(parseInt(resposta) === -1){
+        form.submit();
+        return
+    }
+
+    console.log(resposta)
+
+    if(!resposta) {
+        errorFormRequest.innerHTML = '<p style="text-align: center; color: #db483c;">Error na conexão com banco de dados</p>'
+        return
+    }
+    errorFormRequest.innerHTML = `<p style="text-align: center; color: #db483c;">${resposta}</p>`
 }

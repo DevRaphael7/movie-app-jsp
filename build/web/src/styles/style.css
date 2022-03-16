@@ -13,8 +13,9 @@
 
 body {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     background: #2E4353;
+    overflow-x: hidden;
 }
 
 #row{
@@ -57,7 +58,8 @@ body {
     height: 108px;
     display: block;
     margin-left: auto;
-    margin-right: auto
+    margin-right: auto;
+
 }
 
 .boas__vindas__txt {
@@ -171,11 +173,12 @@ body {
 
 .home__page__header{
     display: flex;
-    align-items: center;
-    width: 1175.2px;
+    align-items: flex-start;
     justify-content: space-between;
     padding: 2.5vh;
     width: 100%;
+    position: absolute;
+    z-index: 1;
 }
 
 .home__page__header ul li{
@@ -203,11 +206,35 @@ body {
     border: none;
 }
 
+.categoria__list{
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 150px;
+    border-radius: 5px;
+    z-index: 1;
+    color: #9F9F9F;
+    border: none;
+    margin-right: 10px;
+    font-weight: 500;
+    font-size: 20px;
+    min-height: 60px;
+    max-height: 60px;
+}
+
+.categoria__list option{
+    color: #2BABF3;
+}
+
+.home__page__header ul li.categoriaBtn:hover .categoria__list{
+    display: block;
+}
+
 .search__bar{
-    background: rgba(47, 52, 55, 0.6);
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
+    background: rgba(47, 52, 55);
+    border-radius: 25px;
+    display: grid;
+    padding: 10px;
+    position: relative;
 }
 
 .search__bar input{
@@ -244,6 +271,10 @@ body {
 }
 
 /* Filmes principais */
+
+.secao-filmes{
+    margin-top: 12vh;
+}
 
 .secao-filmes .filmes__destaque{
     display: none;
@@ -356,6 +387,12 @@ body {
     position: relative;
 }
 
+.img__card__medium:hover{
+    transform: scale(1.05);
+    transition: 10ms;
+    cursor: pointer;
+}
+
 .img__card__medium img{
     object-fit: cover;
     width: 300px;
@@ -431,4 +468,47 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, 320px);
     justify-content: center;
+}
+
+.imgSearchCont{
+    display: none;
+    background: rgba(47, 52, 55);
+    /* background: rgba(47, 52, 55, 0.6); */
+    border-radius: 0px 0px 25px 25px;
+    padding: 10px;
+    color: #fff;
+    width: 100%;
+}
+
+.imgSearchCont.show{
+    display: block;
+    cursor: pointer;
+}
+
+.card__search__bar:hover {
+    background-color: rgb(255, 255, 255, 0.25);
+    border-radius: 20px;
+}
+
+.avatar__user__img{
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.user__container__info{
+    color: #fff;
+    font-style: normal;
+    margin-left: 1.5vh;
+}
+
+.user__info__container{
+    padding: 5px;
+}
+
+.user__info__container:hover{
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    cursor: pointer;
 }

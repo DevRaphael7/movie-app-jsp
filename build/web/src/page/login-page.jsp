@@ -8,6 +8,14 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
+    <% 
+        Cookie[] cookies = request.getCookies();
+
+        /* if(cookies != null){
+            response.sendRedirect("home-page.jsp");
+        } */
+    %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta charset="UTF-8">
@@ -27,12 +35,12 @@
                     <div id="center__horizontal">
                         <label class="form__container__label">Usuário</label>
                         <div class="form__container" fieldForm>
-                            <input type="text" name="usuario" placeholder="Nome ou email" >
+                            <input type="text" name="usuario" placeholder="Nome ou email" autocomplete="off">
                         </div>
                         <span error></span>
                         <label class="form__container__label">Senha</label>
                         <div class="form__container" fieldForm>
-                            <input type="password" name="password" placeholder="Senha">
+                            <input type="password" name="password" placeholder="Senha" autocomplete="off">
                             <span id="passBtn" onclick="changeTypeInputPassword()"><i class="fa-solid fa-lock"></i></span>
                         </div>
                         <span error></span>
@@ -44,6 +52,7 @@
                             </div>
                             <p style="text-align: center; margin-top: 6vh;" class="cad__text">Não é cadastrado? <a>Cadastra-se!</a></p>
                         </div>
+                        <span style="margin-top: 10px" errorRequest><span>
                     </div>
                 </form>
             </div>

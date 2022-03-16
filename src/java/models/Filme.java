@@ -15,8 +15,25 @@ public class Filme {
     private String faixaEtaria;
     private String cover;
     private String dataLancamento;
+    private String screenshot;
     
-    public Filme(){}
+    public Filme(String nome, String cover, String[] genero){
+        this.nome = nome;
+        this.cover = cover;
+        this.genero = genero;
+        this.faixaEtaria = "";
+        this.dataLancamento = "";
+        this.screenshot = "";
+    }
+
+    public Filme(String nome, String[] genero, String cover, String faixaEtaria, String dataLancamento, String screenshot){
+        this.nome = nome;
+        this.genero = genero;
+        this.cover = cover;
+        this.faixaEtaria = faixaEtaria;
+        this.dataLancamento = dataLancamento;
+        this.screenshot = screenshot;
+    }
 
     public Filme(String nome, String[] genero, String cover, String faixaEtaria, String dataLancamento){
         this.nome = nome;
@@ -24,6 +41,7 @@ public class Filme {
         this.cover = cover;
         this.faixaEtaria = faixaEtaria;
         this.dataLancamento = dataLancamento;
+        this.screenshot = "";
     }
 
     public String getNome() {
@@ -46,18 +64,21 @@ public class Filme {
         return this.dataLancamento;
     }
 
-    public String gerarStringDoGenero(String[] generos) {
-        String genero = "";
+    public String gerarStringDoGenero() {
+        String generos = "";
+        for(int i = 0; i < this.genero.length; i++){
+            generos += this.genero[i];
 
-        for(int i = 0; i < generos.length; i++){
-            genero += generos[i];
-
-            if(i + 1 != generos.length){
-                genero += ", ";
+            if(i + 1 != genero.length){
+                generos += ", ";
             }
         }
 
-        return genero;
+        return generos;
+    }
+
+    public String getScreenshot(){
+        return this.screenshot;
     }
  
 }

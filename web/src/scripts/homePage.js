@@ -25,10 +25,16 @@ ativoNavBarButton.forEach((value, index) => {
         
         secaoFilme[index].classList.add("active")
 
+        console.log(ativoNavBarButton.length)
+
         for(let i = 0;i < ativoNavBarButton.length;i++){
             if(i !== index){
                 ativoNavBarButton[i].removeAttribute('id')
-                secaoFilme[i].classList.remove("active")
+                try{
+                    secaoFilme[i].classList.remove("active")
+                } catch(_){
+                    console.log("Error!")
+                }   
             }
         }
     })       
@@ -67,7 +73,6 @@ leftButtonS.addEventListener('click', () => {
 })
 
 rightButtonF.addEventListener('click', () => {
-
     let ind = 0;
 
     imgRowF.forEach((value, index) => {

@@ -9,7 +9,7 @@ function openSideMenu(){
     sideMenuOpened = !sideMenuOpened;
 
     if(sideMenuOpened){
-        sideMenu.style.animation = "abrindo-menu 1000ms forwards"
+        sideMenu.style.animation = "abrindo-menu 100ms forwards"
         sideMenu.classList.add("show")
         foraDoMenu.classList.add("show")
         return

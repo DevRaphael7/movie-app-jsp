@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import models.Filme;
+import models.Usuarios;
 
 /**
  *
@@ -47,7 +48,16 @@ public class ConnectionFactory {
             while(rs.next()){
                 String[] generoDoFilme = rs.getString("genero").split(",");
 
-                filmes.add( new Filme(rs.getString("nome"), generoDoFilme, rs.getString("cover"), rs.getString("faixarEtaria"), rs.getString("dataLanc")));
+                filmes.add( 
+                    new Filme(
+                        rs.getString("nome"), 
+                        generoDoFilme, 
+                        rs.getString("cover"), 
+                        rs.getString("faixarEtaria").isEmpty() ? "" : rs.getString("faixarEtaria"), 
+                        rs.getString("dataLanc").isEmpty() ? "" : rs.getString("dataLanc"),
+                        rs.getString("screenshot")
+                    )
+                );
             }
             this.conn.close();
         } catch(Exception ex){
@@ -58,9 +68,10 @@ public class ConnectionFactory {
         return filmes;
     }
 
-    public String[] getUniqueGenre(){
-        String[] generos = new String[10];
-        String query = "SELECT SUBSTRING_INDEX(genero, ',', -1) as generosFilm FROM filmes GROUP BY genero;";
+    public ArrayList<String> getUniqueGenre(){
+        ArrayList<String> genres = new ArrayList<>();
+        ArrayList<String> getGenerosDB = new ArrayList<>();
+        String query = "SELECT genero FROM filmes GROUP BY genero";
 
         try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -69,22 +80,87 @@ public class ConnectionFactory {
             statement = conn.createStatement();
             rs = statement.executeQuery(query);
 
-            int ind = 0;
             while(rs.next()){
-                System.out.println(rs.getString("generosFilm"));
-
-                generos[ind] = rs.getString("generosFilm");
-
-                if(ind == generos.length - 1){
-                    break;
-                }
-
-                ind++;
+                getGenerosDB.add(rs.getString("genero"));
             }
+
+            for(String itemGetGeneroDB: getGenerosDB){
+                String[] generos = itemGetGeneroDB.split(", ");
+
+                for(String itemGeneros: generos){
+                    if(genres.size() == 0){
+                        genres.add(itemGeneros);
+                        continue;
+                    }
+
+                    Boolean temOuNao = false;
+                    int lengthGenres = genres.size();
+                    while(lengthGenres > 0){
+                        if(genres.get(lengthGenres - 1).equals(itemGeneros)){
+                            temOuNao = true;
+                            break;
+                        }
+
+                        lengthGenres--;
+                    }
+
+                    if(!temOuNao){
+                        genres.add(itemGeneros);
+                    }
+                }
+            }
+            this.conn.close();
         }catch(Exception ex){
             System.out.println(ex.getMessage());
         }
+        return genres;
+    }
 
-        return generos;
+    public int getLoginDataBase(Usuarios user, String query){
+        Usuarios userLogin = user;
+        int validacao = -1;
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            this.conn = DriverManager.getConnection(this.url, this.user, this.password);
+            
+            statement = conn.createStatement();
+            rs = statement.executeQuery(query);
+
+            while(rs.next()){
+                if(userLogin.getNome().equals(rs.getString("nome")) && userLogin.getPassword().equals(rs.getString("password_user"))){
+                    validacao = rs.getInt("id");
+                }
+            }
+
+            this.conn.close();
+        } catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return validacao;
+    }
+
+    public Usuarios getUserDB(Usuarios usuarioLogin) {
+        Usuarios usuario = usuarioLogin;
+
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            this.conn = DriverManager.getConnection(this.url, this.user, this.password);
+
+            statement = conn.createStatement();
+            rs = statement.executeQuery("SELECT * FROM usuarios WHERE nome = '" + usuario.getNome() + "' && password_user = '" + usuario.getPassword() + "'");
+
+            while(rs.next()){
+                String avatar = rs.getString("avatar").isEmpty() ? "" : rs.getString("avatar");
+                usuario.setAvatar(avatar);
+                usuario.setEmail(rs.getString("email"));
+            }
+
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+        return usuario;
     }
 }
