@@ -18,38 +18,45 @@
         <title>Pesquisa</title>
     </head>
     <body>
-        <% 
+        <%
             String url = "http://localhost:8080/projeto_faculdade/SerchTxtFieldHttpRequest";
             ConnectionFactory conexao = new ConnectionFactory();
             String valorPesquisa = request.getParameter("searchField").isEmpty() ? request.getParameter("selectedGenre") : request.getParameter("searchField");
             ArrayList<Filme> allMovies = new ArrayList<>();
-            if(valorPesquisa.equals("Todos")){
+            if (valorPesquisa.equals("Todos")) {
                 allMovies = conexao.getMoviesDataBase("SELECT * FROM filmes");
             } else {
                 allMovies = conexao.getMoviesDataBase(
-                    "SELECT * FROM filmes WHERE LOWER(genero) LIKE '" + valorPesquisa.toLowerCase() + "%'" +
-                    "|| LOWER(nome) LIKE '" + valorPesquisa.toLowerCase() + "%'" +
-                    "|| SUBSTRING_INDEX(dataLanc, '-', 1) = '" + valorPesquisa.toLowerCase() + "'" + 
-                    "|| LOWER(SUBSTRING_INDEX(genero, ', ', -1)) LIKE '" + valorPesquisa.toLowerCase() + "%'" +
-                    "|| SUBSTRING_INDEX(nome, ' ', -1) LIKE '" + valorPesquisa.toLowerCase() + "%'" +
-                    "|| genero LIKE '" + valorPesquisa + "'"
+                        "SELECT * FROM filmes WHERE genero LIKE '%" + valorPesquisa.toLowerCase() + "%'"
+                        + "|| nome LIKE '%" + valorPesquisa.toLowerCase() + "%'"
+                        + "|| SUBSTRING_INDEX(data_lancamento, '-', 0) = '" + valorPesquisa.toLowerCase() + "'"
                 );
+
+                ArrayList<Filme> serieSearch = conexao.getMoviesDataBase(
+                        "SELECT * from series WHERE "
+                        + "nome LIKE '%" + valorPesquisa + "%' || "
+                        + "genero LIKE '%" + valorPesquisa + "%' LIMIT 4;"
+                );
+                
+                for(int i = 0;i < serieSearch.size(); i++){
+                    allMovies.add(serieSearch.get(i));
+                }
             }
         %>
-        
+
         <header class="home__page__header" headerPage>
             <form name="formularioPesquisa" method="post" action="search-page.jsp">
                 <div class="search__bar" onblur="desfazerPesquisaSearchBar()" searchBarContainer>
                     <div style='display: flex'>
                         <input type="search" placeholder="Busca" name="searchField" onkeydown="makePOSTRequest('<%=url%>')"
-                            autocomplete="off">
+                               autocomplete="off">
                         <button 
                             type="submit"
                             style="
-                                background-color: transparent;
-                                border: none;
+                            background-color: transparent;
+                            border: none;
                             "
-                        ><i class="fa-solid fa-magnifying-glass" style="padding-right: 2.5vh;"></i></button>
+                            ><i class="fa-solid fa-magnifying-glass" style="padding-right: 2.5vh;"></i></button>
                     </div>
                     <div class="imgSearchCont" searchMovieCont></div>
                 </div>
@@ -60,20 +67,20 @@
         </header>
 
         <section style="padding: 5vh;">
-            <p class="boas__vindas__txt"><strong>Pesquisado por: <%= valorPesquisa %></strong></p>
+            <p class="boas__vindas__txt"><strong>Pesquisado por: <%= valorPesquisa%></strong></p>
             <div class="grid-movie">
-                <% for(Filme mov: allMovies){ %>
-                    <div class="img__card__medium" style="margin-left: 10px;">
-                        <img src="<%= mov.getCover() %>">
-                        <div class="txt_box">
-                            <p class="name"><%= mov.getNome() %></p>
-                            <p class="year"><%= mov.getDataLancamento().split("-")[0] %></p>
-                        </div>
+                <% for (Filme mov : allMovies) {%>
+                <div class="img__card__medium" style="margin-left: 10px;">
+                    <img src="<%= mov.getCover()%>">
+                    <div class="txt_box">
+                        <p class="name"><%= mov.getNome()%></p>
+                        <p class="year"><%= mov.getDataLancamento().split("-")[0]%></p>
                     </div>
-                <% } %>
+                </div>
+                <% }%>
             </div>
         </section>
-        
+
         <%-- <script src="../scripts/sideMenu.js"></script> --%>
         <script src="../scripts/homePage.js"></script>
         <script src="../scripts/searchBar.js"></script>

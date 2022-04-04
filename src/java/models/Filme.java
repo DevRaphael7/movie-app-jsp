@@ -4,44 +4,43 @@
  */
 package models;
 
+import models.Interfaces.Formatacao;
+
 /**
  *
  * @author rapha
  */
-public class Filme {
+public class Filme implements Formatacao {
     
+    private int id;
     private String nome;
     private String[] genero;
     private String faixaEtaria;
     private String cover;
     private String dataLancamento;
-    private String screenshot;
+    private String sinopse;
+    private String descricao;
     
-    public Filme(String nome, String cover, String[] genero){
+    public Filme(String nome, String[] genero, String faixaEtaria, String dataLancamento){
         this.nome = nome;
-        this.cover = cover;
+        this.cover = "";
         this.genero = genero;
-        this.faixaEtaria = "";
-        this.dataLancamento = "";
-        this.screenshot = "";
+        this.faixaEtaria = faixaEtaria;
+        this.dataLancamento = dataLancamento;
     }
 
-    public Filme(String nome, String[] genero, String cover, String faixaEtaria, String dataLancamento, String screenshot){
+    public Filme(int id, String nome, String[] genero, String cover, String faixaEtaria, String dataLancamento, String sinopse, String descricao){
+        this.id = id;
         this.nome = nome;
         this.genero = genero;
         this.cover = cover;
         this.faixaEtaria = faixaEtaria;
         this.dataLancamento = dataLancamento;
-        this.screenshot = screenshot;
+        this.sinopse = sinopse;
+        this.descricao = descricao;
     }
-
-    public Filme(String nome, String[] genero, String cover, String faixaEtaria, String dataLancamento){
-        this.nome = nome;
-        this.genero = genero;
-        this.cover = cover;
-        this.faixaEtaria = faixaEtaria;
-        this.dataLancamento = dataLancamento;
-        this.screenshot = "";
+    public int getId(){
+        return this.id;
     }
 
     public String getNome() {
@@ -63,7 +62,8 @@ public class Filme {
     public String getDataLancamento() {
         return this.dataLancamento;
     }
-
+    
+    @Override
     public String gerarStringDoGenero() {
         String generos = "";
         for(int i = 0; i < this.genero.length; i++){
@@ -77,8 +77,12 @@ public class Filme {
         return generos;
     }
 
-    public String getScreenshot(){
-        return this.screenshot;
+    public String getSinopse(){
+        return this.sinopse;
+    }
+
+    public String getDescricao() {
+        return this.descricao;
     }
  
 }

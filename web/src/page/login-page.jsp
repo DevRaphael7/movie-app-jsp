@@ -8,7 +8,6 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
-
     <% 
         Cookie[] cookies = request.getCookies();
 
@@ -50,7 +49,8 @@
                                     <p>Login</p>
                                 </button>
                             </div>
-                            <p style="text-align: center; margin-top: 6vh;" class="cad__text">Não é cadastrado? <a>Cadastra-se!</a></p>
+                            <p style="text-align: center; margin-top: 6vh;" class="cad__text">Não é cadastrado? 
+                                <a href="./Cadastro.jsp">Cadastra-se!</a></p>
                         </div>
                         <span style="margin-top: 10px" errorRequest><span>
                     </div>

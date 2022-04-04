@@ -46,7 +46,7 @@ public class loginDataBase extends HttpServlet {
         Usuarios user = new Usuarios(usuarioEmail, senha);
         ConnectionFactory conn = new ConnectionFactory();
 
-        String query = "SELECT * FROM usuarios WHERE nome = '" + user.getNome() + "' && password_user = '" + user.getPassword() + "'";
+        String query = "SELECT * FROM usuario WHERE nome = '" + user.getNome() + "' && senha = '" + user.getPassword() + "'";
 
         int usuarioCadastrado = conn.getLoginDataBase(user, query);
 

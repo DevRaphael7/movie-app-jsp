@@ -8,6 +8,10 @@
         <servlet-name>loginDataBase</servlet-name>
         <servlet-class>components.loginDataBase</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CadastroHttp</servlet-name>
+        <servlet-class>components.CadastroHttp</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SerchTxtFieldHttpRequest</servlet-name>
         <url-pattern>/SerchTxtFieldHttpRequest</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>loginDataBase</servlet-name>
         <url-pattern>/loginDataBase</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CadastroHttp</servlet-name>
+        <url-pattern>/CadastroHttp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

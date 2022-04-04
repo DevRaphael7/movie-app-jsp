@@ -1,4 +1,5 @@
 package JDBC;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -6,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import models.Filme;
+import models.Serie;
 import models.Usuarios;
 
 /**
@@ -26,7 +28,7 @@ public class ConnectionFactory {
     public ConnectionFactory() {
         this.user = "raphael";
         this.password = "159357Sql@";
-        this.url = "jdbc:mysql://localhost:3306/mov";
+        this.url = "jdbc:mysql://localhost:3306/dbfilmes";
     }
 
     public ConnectionFactory(String url, String user, String password){
@@ -47,15 +49,17 @@ public class ConnectionFactory {
 
             while(rs.next()){
                 String[] generoDoFilme = rs.getString("genero").split(",");
-
+  
                 filmes.add( 
                     new Filme(
+                        rs.getInt("id"),
                         rs.getString("nome"), 
                         generoDoFilme, 
-                        rs.getString("cover"), 
-                        rs.getString("faixarEtaria").isEmpty() ? "" : rs.getString("faixarEtaria"), 
-                        rs.getString("dataLanc").isEmpty() ? "" : rs.getString("dataLanc"),
-                        rs.getString("screenshot")
+                        rs.getString("cover"),
+                        rs.getString("faixa_etaria").isEmpty() ? "" : rs.getString("faixa_etaria"), 
+                        rs.getString("data_lancamento").isEmpty() ? "" : rs.getString("data_lancamento"),
+                        rs.getString("sinopse"),
+                        rs.getString("descricao")
                     )
                 );
             }
@@ -68,10 +72,21 @@ public class ConnectionFactory {
         return filmes;
     }
 
-    public ArrayList<String> getUniqueGenre(){
+    public ArrayList<String> getUniqueGenre(String type){
         ArrayList<String> genres = new ArrayList<>();
         ArrayList<String> getGenerosDB = new ArrayList<>();
+
         String query = "SELECT genero FROM filmes GROUP BY genero";
+        switch(type){
+            case "mov":
+                query = "SELECT genero FROM filmes GROUP BY genero";
+            break;
+            case "ser":
+                query = "SELECT genero FROM series GROUP BY genero";
+            break;
+            default:
+                query = "SELECT genero FROM filmes GROUP BY genero";
+        }
 
         try{
             Class.forName("com.mysql.jdbc.Driver");
@@ -128,8 +143,8 @@ public class ConnectionFactory {
             rs = statement.executeQuery(query);
 
             while(rs.next()){
-                if(userLogin.getNome().equals(rs.getString("nome")) && userLogin.getPassword().equals(rs.getString("password_user"))){
-                    validacao = rs.getInt("id");
+                if(userLogin.getNome().equals(rs.getString("nome")) && userLogin.getPassword().equals(rs.getString("senha"))){
+                    validacao = rs.getInt("id_usuario");
                 }
             }
 
@@ -149,12 +164,12 @@ public class ConnectionFactory {
             this.conn = DriverManager.getConnection(this.url, this.user, this.password);
 
             statement = conn.createStatement();
-            rs = statement.executeQuery("SELECT * FROM usuarios WHERE nome = '" + usuario.getNome() + "' && password_user = '" + usuario.getPassword() + "'");
+            rs = statement.executeQuery("SELECT * FROM usuario WHERE nome = '" + usuario.getNome() + "' && senha = '" + usuario.getPassword() + "'");
 
             while(rs.next()){
                 String avatar = rs.getString("avatar").isEmpty() ? "" : rs.getString("avatar");
                 usuario.setAvatar(avatar);
-                usuario.setEmail(rs.getString("email"));
+                // usuario.setEmail(rs.getString("email"));
             }
 
         } catch(Exception ex){
@@ -162,5 +177,59 @@ public class ConnectionFactory {
         }
 
         return usuario;
+    }
+
+    public Boolean cadUser(Usuarios user){
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            this.conn = DriverManager.getConnection(this.url, this.user, this.password);
+
+            String values = "'" + user.getNome() + "', '" + user.getPassword() + "', '" + user.getAvatar() + "'";
+        
+            statement = conn.createStatement();
+            statement.executeUpdate("INSERT INTO usuario(nome, senha, avatar) VALUES (" + values + ")");
+            
+            conn.close();
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    // public Serie(String nome, String[] genero, String faixaEtaria, String cover, String dataLancamento, String sinopse){
+    public ArrayList<Serie> getSerie(String query){
+        ArrayList<Serie> seriesLista = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            this.conn = DriverManager.getConnection(this.url, this.user, this.password);
+
+            statement = conn.createStatement();
+            rs = statement.executeQuery(query);
+
+            while(rs.next()){
+                
+                rs.getString("descricao");
+                seriesLista.add(
+                    new Serie(
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("genero").split("-"),
+                        rs.getString("faixa_etaria"),
+                        rs.getString("cover"),
+                        rs.getString("data_lancamento"),
+                        rs.getString("sinopse"),
+                        rs.getString("descricao")
+                    )
+                );
+            }
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+        return seriesLista;
     }
 }

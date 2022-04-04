@@ -47,6 +47,10 @@ body {
     position: relative;
 }
 
+#form-container#cad__page{
+    height: 680px;
+}
+
 .boas__vindas{
     margin-top: 6vh;
     width: 100%;
@@ -175,8 +179,8 @@ body {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 2.5vh;
     width: 100%;
+    padding: 2.5vh;
     position: absolute;
     z-index: 1;
 }
@@ -400,6 +404,11 @@ body {
     border-radius: 25px;
 }
 
+.img__card__medium img.size-90p {
+    width: 570px;
+    height: 290px;
+}
+
 .img__card__medium .txt_box{
     display: block;
     position: absolute;
@@ -511,4 +520,12 @@ body {
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 10px;
     cursor: pointer;
+}
+
+.show{
+    display: block;
+}
+
+.hide{
+    display: none;
 }

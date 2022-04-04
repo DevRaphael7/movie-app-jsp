@@ -1,7 +1,8 @@
 <%@page import="models.Usuarios"%>
 <%@page import="JDBC.ConnectionFactory" %> 
 <%@page import="models.Filme" %>
-<%@page import="models.Search" %>
+<%@page import="provider.Search" %>
+<%@page import="models.Serie" %>
 <%@page import="java.util.ArrayList" %>
 <%@page import="java.time.LocalDate" %>
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8" %>
@@ -42,9 +43,9 @@
     <body>
         
         <% 
-            ArrayList<Filme> allMovies = conexao.getMoviesDataBase("SELECT * FROM filmes WHERE type = 'FILME'");
-            ArrayList<String> generos = conexao.getUniqueGenre();
-            Search pesquisa = new Search(allMovies, generos);
+            ArrayList<Filme> allMovies = conexao.getMoviesDataBase("SELECT * FROM filmes;");
+            ArrayList<Serie> allSeries = conexao.getSerie("SELECT * FROM series");
+            Search pesquisa = new Search();
             LocalDate dataAtual = LocalDate.now();
         %>
 
@@ -70,7 +71,7 @@
             <form name="formularioPesquisa" method="POST" action="search-page.jsp" id="row">
                 <select name="selectedGenre" class="categoria__list">
                     <option value="Todos" onclick="submitSelectedGenre(value)" selected>Todos</option>
-                    <% for(String genre : generos){ 
+                    <% for(String genre : conexao.getUniqueGenre("mov")){ 
                         if(genre == null){
                             break;
                         }
@@ -97,9 +98,6 @@
                 <img class="avatar__user__img" src="<%= user.getAvatar() %>">
                 <p class="user__container__info"><%=user.getNome()%></p>
             </div>
-            <%-- <button class="menu__button" onclick="openSideMenu()">
-                <i class="fa-solid fa-bars"></i>
-            </button> --%>
         </header>
 
         <!-- Filmes -->
@@ -135,13 +133,13 @@
                             <p class="genre_mov">Genero</p>
                             <p class="genres_mov"><%= item.gerarStringDoGenero() %></p>
                         </div>
-                        <div style="display: flex;">
-                            <img src="<%= item.getScreenshot() %>" style="
+                        <!-- <div style="display: flex;">
+                            <img src="" style="
                                 width: 180px;
                                 height: 100px;
                                 object-fit: cover;
                             ">
-                        </div>
+                        </div> -->
                     </div>
                     <% } 
                     }
@@ -151,12 +149,12 @@
             </div>
 
             <div class="filmes__destaque">
-                <% for(String genre : generos){ %>
+                <% for(String genre : conexao.getUniqueGenre("mov")){ %>
                     <h3 style="margin-top: 6.5vh;"><%= genre %></h3>
                     <div id="row" style="justify-content: flex-start; align-items: center;">
-                        <% for(Filme filme : pesquisa.searchMovieByMovie(genre)){ %>    
+                        <% for(Filme filme : pesquisa.searchMovieByGenre(genre, allMovies)){ %>    
                                 <div class="img__card__medium" style="margin-left: 10px;">
-                                    <img src="<%= filme.getCover() %>">
+                                    <a href="http://localhost:8080/projeto_faculdade/src/page/DetailPage.jsp?idM=<%= filme.getId() %>&nomeM=<%= filme.getNome() %>"><img src="<%= filme.getCover() %>"></a>
                                     <div class="txt_box">
                                         <p class="name"><%= filme.getNome() %></p>
                                         <p class="year"><%= filme.getDataLancamento().split("-")[0] %></p>
@@ -167,6 +165,7 @@
                 <% } %>
             </div>
         </section>
+           
 
         <!-- Séries -->
         <section class="secao-filmes" secaoFilme>
@@ -174,96 +173,53 @@
                 <h3>Destaque</h3>
                 <div id="row" style="justify-content: space-around; align-items: center;">
                     <i class="fa-solid fa-chevron-left" id="img-scroll-left-s"></i>
-                    <div class="img__card__big active" imgRowS>
-                        <img
-                            src="https://br.atsit.in/wp-content/uploads/2021/06/confira-o-primeiro-trailer-de-the-cuphead-show-aqui.jpg">
-                        <div class="txt_box">
-                            <p class="name">CUPHEAD - Show</p>
-                            <p class="year">2022</p>
-                        </div>
-                        <div class="botao__assistir">
-                            <i class="fa-solid fa-play"></i>
-                            <p>Assistir</p>
-                        </div>
-                    </div>
+                    <% for(Serie sItem: allSeries) { %>
                     <div class="img__card__big" imgRowS>
-                        <img
-                            src="https://marketresearchtelecast.com/wp-content/uploads/2021/06/1624338107_Demon-Slayer-Kimetsu-no-Yaiba-presents-its-final-cover-art.jpg">
+                        <img src="<%= sItem.getCover() %>">
                         <div class="txt_box">
-                            <p class="name">Demon Slayer</p>
-                            <p class="year">2019</p>
+                            <p class="name"><%= sItem.getNome() %></p>
+                            <p class="year"><%= sItem.getDataLancamento() %></p>
                         </div>
                         <div class="botao__assistir">
                             <i class="fa-solid fa-play"></i>
                             <p>Assistir</p>
                         </div>
                     </div>
-                    <div class="info-movie-row active" infoMovS>
+                    <div class="info-movie-row" infoMovS>
                         <div id="row" style="align-items: center;">
-                            <p class="name_mov">Cuphead - Série</p>
+                            <p class="name_mov"><%= sItem.getNome() %></p>
                             <div class="small-line"></div>
-                            <p class="year_mov">+18</p>
+                            <p class="year_mov"><%= sItem.getFaixaEtaria() %></p>
                         </div>
                         <div style="color: #fff;">
                             <p class="genre_mov">Genero</p>
                             <p class="genres_mov">Animação</p>
                         </div>
                     </div>
-                    <div class="info-movie-row" infoMovS>
-                        <div id="row" style="align-items: center;">
-                            <p class="name_mov">Demon Slayer</p>
-                            <div class="small-line"></div>
-                            <p class="year_mov">12</p>
-                        </div>
-                        <div style="color: #fff;">
-                            <p class="genre_mov">Genero</p>
-                            <p class="genres_mov">Anime, Luta</p>
-                        </div>
-                    </div>
+                    <% } %>
                     <i class="fa-solid fa-chevron-right" id="img-scroll-right-s"></i>
                 </div>
             </div>
         
             <div class="filmes__destaque">
-                <h3>Terror</h3>
-                <div id="row" style="justify-content: space-around; align-items: center;">
-                    <div class="img__card__medium">
-                        <img src="https://i.ytimg.com/vi/U9W85p8n-mE/maxresdefault.jpg">
-                        <div class="txt_box">
-                            <p class="name">Stranger Things</p>
-                            <p class="year">2019</p>
-                        </div>
+                <% for(String genre : conexao.getUniqueGenre("ser")){ %>
+                    <h3><%= genre %></h3>
+                    <div id="row" style="justify-content: flex-start; align-items: center;">
+                        <% 
+                            for(Serie serie : pesquisa.searchSerieByGenre(genre, allSeries)){ 
+                        %>
+                            <div class="img__card__medium">
+                                <a href="http://localhost:8080/projeto_faculdade/src/page/DetailPage.jsp?idM=<%= serie.getId() %>&nomeM=<%= serie.getNome() %>">
+                                    <img src="<%= serie.getCover() %>">
+                                </a>
+                                <div class="txt_box">
+                                    <p class="name"><%= serie.getNome() %></p>
+                                    <p class="year"><%= serie.getDataLancamento() %></p>
+                                </div>
+                            </div>
+                        <% } %>
                     </div>
-                    <div class="img__card__medium">
-                        <img src="https://i.ytimg.com/vi/U9W85p8n-mE/maxresdefault.jpg">
-                        <div class="txt_box">
-                            <p class="name">Stranger Things</p>
-                            <p class="year">2019</p>
-                        </div>
-                    </div>
-                    <div class="img__card__medium">
-                        <img src="https://i.ytimg.com/vi/U9W85p8n-mE/maxresdefault.jpg">
-                        <div class="txt_box">
-                            <p class="name">Stranger Things</p>
-                            <p class="year">2019</p>
-                        </div>
-                    </div>
-                    <div class="img__card__medium">
-                        <img src="https://i.ytimg.com/vi/U9W85p8n-mE/maxresdefault.jpg">
-                        <div class="txt_box">
-                            <p class="name">Stranger Things</p>
-                            <p class="year">2019</p>
-                        </div>
-                    </div>
-                    <div class="img__card__medium">
-                        <img src="https://i.ytimg.com/vi/U9W85p8n-mE/maxresdefault.jpg">
-                        <div class="txt_box">
-                            <p class="name">Stranger Things</p>
-                            <p class="year">2019</p>
-                        </div>
-                    </div>
-                </div>
-
+                <% } %>
             </div>
         </section>
 

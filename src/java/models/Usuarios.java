@@ -15,6 +15,13 @@ public class Usuarios {
     private String avatar;
     private String email;
 
+    public Usuarios(String nome, String password, String email, String avatar){
+        this.nome = nome;
+        this.password = password;
+        this.avatar = avatar;
+        this.email = email;
+    }
+
     public Usuarios(String nome, String password) {
         this.nome = nome;
         this.password = password;

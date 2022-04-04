@@ -55,11 +55,9 @@ function changeTypeInputPassword() {
     hideOrShowPassword = !hideOrShowPassword;
     if(hideOrShowPassword){
         formularioLogin.password.type = 'text'
-        //passwordHideBtn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>'
         passwordHideBtn.innerHTML = '<i class="fa-solid fa-unlock"></i>'
     } else {
         formularioLogin.password.type = 'password'
-        //passwordHideBtn.innerHTML = '<i class="fa-solid fa-eye"></i>'
         passwordHideBtn.innerHTML = '<i class="fa-solid fa-lock"></i>'
     }
 }
@@ -76,7 +74,7 @@ function postLoginUser(){
     ajaxRequest.open('POST', "http://localhost:8080/projeto_faculdade/loginDataBase", true)
     ajaxRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
     ajaxRequest.send(`usuario=${formUser.value}&senha=${formPassword.value}`)
-    ajaxRequest.onreadystatechange = setTimeout(() => respostaDoServidor(), 500)
+    ajaxRequest.onreadystatechange = setTimeout(() => respostaDoServidor(), 1000)
 }
 
 function respostaDoServidor() {
@@ -85,8 +83,6 @@ function respostaDoServidor() {
         form.submit();
         return
     }
-
-    console.log(resposta)
 
     if(!resposta) {
         errorFormRequest.innerHTML = '<p style="text-align: center; color: #db483c;">Error na conexão com banco de dados</p>'

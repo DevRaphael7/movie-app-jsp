@@ -44,19 +44,28 @@ public class SerchTxtFieldHttpRequest extends HttpServlet {
         ArrayList<Filme> filmeSearch = new ArrayList<>();
 
         filmeSearch = conection.getMoviesDataBase(
-            "SELECT * FROM filmes WHERE LOWER(genero) LIKE '" + valorRequest.toLowerCase() + "%'" +
-            "|| LOWER(nome) LIKE '" + valorRequest.toLowerCase() + "%'" +
-            "|| SUBSTRING_INDEX(dataLanc, '-', 1) = '" + valorRequest.toLowerCase() + "'" + 
-            "|| LOWER(SUBSTRING_INDEX(genero, ', ', -1)) LIKE '" + valorRequest.toLowerCase() + "%'" +
-            "|| SUBSTRING_INDEX(nome, ' ', -1) LIKE '" + valorRequest.toLowerCase() + "%'" +
-            "|| genero LIKE '" + valorRequest + "' LIMIT 4"
+            "SELECT * FROM filmes WHERE genero LIKE '%" + valorRequest.toLowerCase() + "%'" +
+            "|| nome LIKE '%" + valorRequest.toLowerCase() + "%'" +
+            "|| SUBSTRING_INDEX(data_lancamento, '-', 0) = '" + valorRequest.toLowerCase() + "' LIMIT 4"
         );
+    
+        ArrayList<Filme> serieSearch = conection.getMoviesDataBase(
+           "SELECT * from series WHERE " +
+           "nome LIKE '%" + valorRequest + "%' || " +
+           "genero LIKE '%" + valorRequest + "%' LIMIT 4;"
+        );
+        
+        if(serieSearch.size() != 0){
+            for(int i = 0; i < serieSearch.size(); i++){
+                filmeSearch.add(serieSearch.get(i));
+            }  
+        } 
 
         if(filmeSearch.size() == 0) return;
 
         for(Filme item: filmeSearch){
             out.println(
-                "<a href='http://localhost:8080/projeto_faculdade/src/page/search-page.jsp?searchField=" + item.getNome() + "'" +
+                "<a href='http://localhost:8080/projeto_faculdade/src/page/DetailPage.jsp?idM=" + item.getId() + "&nomeM=" + item.getNome() + "'" +
                     " style='text-decoration: none; color: #FFF;'>" +
                     "<div style='display: flex;" +
                         "padding: 5px;" +  

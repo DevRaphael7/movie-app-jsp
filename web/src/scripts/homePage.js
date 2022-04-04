@@ -19,6 +19,9 @@ const rightButtonS = document.getElementById('img-scroll-right-s')
 imgRowF[0].classList.add('active')
 infoMovF[0].classList.add('active')
 
+imgRowS[0].classList.add('active')
+infoMovS[0].classList.add('active')
+
 ativoNavBarButton.forEach((value, index) => {
     value.addEventListener('click', () => {
         value.id = 'active'
