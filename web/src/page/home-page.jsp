@@ -127,7 +127,7 @@
                         <div id="row" style="align-items: center;">
                             <p class="name_mov"><%= item.getNome() %></p>
                             <div class="small-line"></div>
-                            <p class="year_mov"><%= item.getFaixaEtaria() %></p>
+                            <p class="year_mov"><%= item.getFaixaEtaria().toString().equals("0") ? "Livre" : item.getFaixaEtaria() %></p>
                         </div>
                         <div style="color: #fff;">
                             <p class="genre_mov">Genero</p>

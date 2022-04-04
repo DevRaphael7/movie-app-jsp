@@ -18,6 +18,7 @@
         <title>Pesquisa</title>
     </head>
     <body>
+    
         <%
             String url = "http://localhost:8080/projeto_faculdade/SerchTxtFieldHttpRequest";
             ConnectionFactory conexao = new ConnectionFactory();
