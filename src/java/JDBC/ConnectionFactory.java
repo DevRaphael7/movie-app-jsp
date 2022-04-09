@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import models.Comentario;
 import models.Filme;
 import models.Serie;
 import models.Usuarios;
@@ -167,11 +168,13 @@ public class ConnectionFactory {
             rs = statement.executeQuery("SELECT * FROM usuario WHERE nome = '" + usuario.getNome() + "' && senha = '" + usuario.getPassword() + "'");
 
             while(rs.next()){
-                String avatar = rs.getString("avatar").isEmpty() ? "" : rs.getString("avatar");
+                String avatar = rs.getString("avatar").isEmpty() ? "https://static.vecteezy.com/ti/vetor-gratis/p1/2275847-avatar-masculino-perfil-icone-de-homem-caucasiano-sorridente-vetor.jpg" : rs.getString("avatar");
                 usuario.setAvatar(avatar);
-                // usuario.setEmail(rs.getString("email"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setPassword(rs.getString("senha"));
+                usuario.setId(rs.getInt("id_usuario"));
             }
-
+            conn.close();
         } catch(Exception ex){
             System.out.println(ex.getMessage());
         }
@@ -231,5 +234,88 @@ public class ConnectionFactory {
         }
 
         return seriesLista;
+    }
+
+    public Boolean adicionarComentario(String comentario, int idUsuario, int idFilme) {
+        Boolean cadComen = false;
+       
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            this.conn = DriverManager.getConnection(this.url, this.user, this.password);
+
+            String query = "INSERT INTO comentarios(id_usuario, id_filmes, titulo_comentario, conteudo_comentario) VALUES ("
+            + idUsuario + ", " + idFilme + ",'" + comentario + "','comentario')";
+
+            statement = conn.createStatement();
+            statement.executeUpdate(query);
+            
+           cadComen = true;
+           conn.close();
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+        return cadComen;
+    }
+
+    public ArrayList<Comentario> obterComentarios() {
+        ArrayList<Comentario> listaComentarios = new ArrayList<>();
+
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            this.conn = DriverManager.getConnection(this.url, this.user, this.password);
+
+            String query = "SELECT * FROM comentarios";
+
+            statement = conn.createStatement();
+            rs = statement.executeQuery(query);
+            
+            while(rs.next()) {
+                listaComentarios.add(new Comentario(
+                    rs.getInt("id_comentario"),
+                    rs.getInt("id_usuario"),
+                    rs.getInt("id_filmes"),
+                    rs.getString("titulo_comentario")
+                ));
+            }
+
+           conn.close();
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    
+        return listaComentarios;
+    }
+
+    public Usuarios getUserById(int id){
+        Usuarios user = new Usuarios();
+
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            this.conn = DriverManager.getConnection(this.url, this.user, this.password);
+
+            String query = "SELECT * FROM usuario WHERE id_usuario = " + id;
+
+            statement = conn.createStatement();
+            rs = statement.executeQuery(query);
+            
+            while(rs.next()) {
+
+                user = new Usuarios(
+                    rs.getString("nome"),
+                    rs.getString("senha"),
+                    "email.com",
+                    rs.getString("avatar")
+                );
+
+                user.setId(rs.getInt("id_usuario"));
+            }
+
+            conn.close();
+        } catch(Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        return user;
     }
 }

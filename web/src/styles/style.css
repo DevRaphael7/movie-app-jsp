@@ -22,6 +22,10 @@ body {
     display: flex;
 }
 
+.displayNone{
+    display: none;
+}
+
 #center__page{
     display: flex;
     align-items: center;
@@ -528,4 +532,8 @@ body {
 
 .hide{
     display: none;
+}
+
+.swiper{
+    width: 600px;
 }

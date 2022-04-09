@@ -2,15 +2,23 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>SerchTxtFieldHttpRequest</servlet-name>
-        <servlet-class>components.SerchTxtFieldHttpRequest</servlet-class>
+        <servlet-class>servlets.SerchTxtFieldHttpRequest</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>loginDataBase</servlet-name>
-        <servlet-class>components.loginDataBase</servlet-class>
+        <servlet-class>servlets.loginDataBase</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CadastroHttp</servlet-name>
-        <servlet-class>components.CadastroHttp</servlet-class>
+        <servlet-class>servlets.CadastroHttp</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ComentsHTTP</servlet-name>
+        <servlet-class>servlets.ComentsHTTP</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getCommentsHttp</servlet-name>
+        <servlet-class>servlets.getCommentsHttp</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SerchTxtFieldHttpRequest</servlet-name>
@@ -23,6 +31,14 @@
     <servlet-mapping>
         <servlet-name>CadastroHttp</servlet-name>
         <url-pattern>/CadastroHttp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ComentsHTTP</servlet-name>
+        <url-pattern>/ComentsHTTP</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getCommentsHttp</servlet-name>
+        <url-pattern>/getCommentsHttp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -9,7 +9,8 @@ package models;
  * @author rapha
  */
 public class Usuarios {
-    
+  
+    private int idUsuario;  
     private String nome;
     private String password;
     private String avatar;
@@ -25,6 +26,7 @@ public class Usuarios {
     public Usuarios(String nome, String password) {
         this.nome = nome;
         this.password = password;
+        this.idUsuario = 0;
         this.avatar = "";
         this.email = "";
     }
@@ -66,5 +68,13 @@ public class Usuarios {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setId(int id){
+       this.idUsuario = id;  
+    }
+
+    public int getId(){
+       return this.idUsuario;
     }
 }

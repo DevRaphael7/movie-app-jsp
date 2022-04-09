@@ -57,6 +57,10 @@
             }
             
         %>
+
+        <p id="userName"><%= user.getNome() %></p>
+        <p id="userPassword"><%= user.getPassword() %></p>
+        <p id="idMov"><%= allMovies.get(0).getId() %></p>
          
         <header class="home__page__header" headerPage>
             <ul>
@@ -118,11 +122,43 @@
                 <p style="color: #9F9F9F; text-transform: capitalize; line-height: 23px;" class="hide" id="descText"><%= allMovies.get(0).getDescricao() %></p>
                 <%@include file="./components/comentarios-component.jsp" %>
             </div>
+
+            <div>
+
+                <section id="row__vCenter" style="margin-top: 2.5vh;">
+                    <img src="https://veja.abril.com.br/wp-content/uploads/2018/09/filme-avatar-107.jpg" class="avatar__user__img">
+                    <div class="coments__bar bg_grey full_width" style="margin-left: 1.5vh; align-items: flex-start;">
+                        <h1 class="color_grey none__marginTop">Comentário</h1>
+
+                        <input 
+                            type="text" 
+                            class="transparent_bg color_grey" 
+                            placeholder="Adicione um comentário"
+                            id="txtComent"
+                        >
+
+                    </div>
+                </section>
+
+                <div id="relative" class="full_width">
+                    <button 
+                        class="end_button transparent_bg color_grey" 
+                        style="padding: 5px;" 
+                        id="btnAddComent"
+                        onclick="addComentPOST()"
+                    >Adicionar</button>
+                </div>
+
+            </div>
+
+            <section comentsContainerList></section>
             
         </section>
+            
         
         <script src="../scripts/searchBar.js"></script>
         <script src="../scripts/Ajax.js"></script>
         <script src="../scripts/show-hide-desc.js"></script>
+        <script src="../scripts/getCommentsHttp.js"></script>
     </body>
 </html>

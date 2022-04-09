@@ -36,6 +36,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../styles/style.css">
         <link rel="stylesheet" href="../styles/side-menu.css">
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/swiper/swiper-bundle.min.css"
+        />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         <title>Página principal</title>
     </head>
@@ -147,7 +151,7 @@
                     <i class="fa-solid fa-chevron-right" id="img-scroll-right-f"></i>
                 </div>
             </div>
-
+                    
             <div class="filmes__destaque">
                 <% for(String genre : conexao.getUniqueGenre("mov")){ %>
                     <h3 style="margin-top: 6.5vh;"><%= genre %></h3>
@@ -224,6 +228,22 @@
         </section>
 
         <div id="testeF"></div>
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+        <script>
+           var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+    </script>
 
         <!-- <script src="../scripts/sideMenu.js"></script> -->
         <script src="../scripts/homePage.js"></script>

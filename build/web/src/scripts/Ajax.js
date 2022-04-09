@@ -1,10 +1,6 @@
 let searchMovieCont = document.querySelector('[searchMovieCont]')
 let searchBarContainer = document.querySelector('[searchBarContainer')
 
-
-console.log(searchBarContainer)
-console.log(formularioPesquisa.searchField)
-
 formularioPesquisa.searchField.addEventListener('blur', () => {
     searchBarContainer.addEventListener('mouseleave', (e) => {   
         searchMovieCont.classList.remove("show")
