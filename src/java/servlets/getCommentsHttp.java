@@ -37,14 +37,16 @@ public class getCommentsHttp extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+
+        int idMov = Integer.parseInt(request.getParameter("idMov"));
         conn = new ConnectionFactory();
 
-        ArrayList<Comentario> comentarios = conn.obterComentarios();
+        ArrayList<Comentario> comentarios = conn.obterComentarios(idMov);
 
         for(Comentario com: comentarios) {
             Usuarios user = conn.getUserById(com.getIdUser());
             out.println(
-                "<div id='row_vStart' style='margin-top: 2.5vh;'>" +
+                "<div id='row__vStart' style='margin-top: 2.5vh;'>" +
                     "<img src='" + user.getAvatar() + "' class='avatar__user__img'>" +
                     "<div class='coments__bar full_width' style='margin-left: 1.5vh; align-items: flex-start;'>" +
                         "<h1 class='color_grey none__marginTop'>" + user.getNome() + "</h1>" +

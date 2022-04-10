@@ -2,7 +2,11 @@
     font-family: "Reboto";
     src: url("../fonts/Roboto-Regular.ttf")
 }
-  
+ 
+:root{
+    --colorGrey: rgba(47, 52, 55);
+    --buttonHoverColor: #2BABF3;
+}
 
 /* Login page */
 
@@ -24,6 +28,24 @@ body {
 
 .displayNone{
     display: none;
+}
+
+#relative{
+    position: relative;
+}
+
+#row__vCenter{
+    display: flex;
+    align-items: center;
+}
+
+#row__vStart{
+    display: flex;
+    align-items: start;
+}
+
+.full_width{
+    width: 100%;
 }
 
 #center__page{
@@ -536,4 +558,47 @@ body {
 
 .swiper{
     width: 600px;
+}
+
+.coments__bar{
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.bg_grey{
+    background: var(--colorGrey);
+}
+
+.coments__bar textarea{
+    outline: none;
+    border: none;
+    padding: 5px;
+    font-size: 1rem;
+}
+
+.transparent_bg {
+    background-color: transparent;
+}
+
+.color_grey{
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.none__marginTop{
+    margin-top: 0;
+}
+
+.end_button{
+    position: absolute;
+    right: 0;
+    bottom: -3vh;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.end_button:hover{
+    color: var(--buttonHoverColor);
+    border-radius: 5px;
+    cursor: pointer;
 }

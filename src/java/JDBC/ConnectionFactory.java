@@ -258,14 +258,14 @@ public class ConnectionFactory {
         return cadComen;
     }
 
-    public ArrayList<Comentario> obterComentarios() {
+    public ArrayList<Comentario> obterComentarios(int idMov) {
         ArrayList<Comentario> listaComentarios = new ArrayList<>();
 
         try{
             Class.forName("com.mysql.jdbc.Driver");
             this.conn = DriverManager.getConnection(this.url, this.user, this.password);
 
-            String query = "SELECT * FROM comentarios";
+            String query = "SELECT * FROM comentarios WHERE id_filmes = " + idMov;
 
             statement = conn.createStatement();
             rs = statement.executeQuery(query);

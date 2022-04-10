@@ -58,9 +58,9 @@
             
         %>
 
-        <p id="userName"><%= user.getNome() %></p>
-        <p id="userPassword"><%= user.getPassword() %></p>
-        <p id="idMov"><%= allMovies.get(0).getId() %></p>
+        <p id="userName" class="displayNone"><%= user.getNome() %></p>
+        <p id="userPassword" class="displayNone"><%= user.getPassword() %></p>
+        <p id="idMov" class="displayNone"><%= allMovies.get(0).getId() %></p>
          
         <header class="home__page__header" headerPage>
             <ul>
@@ -124,22 +124,21 @@
             </div>
 
             <div>
-
-                <section id="row__vCenter" style="margin-top: 2.5vh;">
-                    <img src="https://veja.abril.com.br/wp-content/uploads/2018/09/filme-avatar-107.jpg" class="avatar__user__img">
+                <section id="row__vStart" style="margin-top: 2.5vh;">
+                    <img src="<%= user.getAvatar() %>" class="avatar__user__img">
                     <div class="coments__bar bg_grey full_width" style="margin-left: 1.5vh; align-items: flex-start;">
                         <h1 class="color_grey none__marginTop">Comentário</h1>
 
-                        <input 
+                        <textarea 
                             type="text" 
-                            class="transparent_bg color_grey" 
+                            class="transparent_bg color_grey full_width" 
                             placeholder="Adicione um comentário"
                             id="txtComent"
-                        >
+                        ></textarea>
 
                     </div>
                 </section>
-
+                
                 <div id="relative" class="full_width">
                     <button 
                         class="end_button transparent_bg color_grey" 

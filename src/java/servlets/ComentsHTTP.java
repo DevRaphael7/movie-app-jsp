@@ -30,6 +30,7 @@ public class ComentsHTTP extends HttpServlet {
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         conection = new ConnectionFactory();
         
@@ -39,7 +40,6 @@ public class ComentsHTTP extends HttpServlet {
         String coment = request.getParameter("comentUser");
 
         Usuarios user = conection.getUserDB(new Usuarios(usuario, senha));
-        out.println(user.getId());
         Boolean enviadoAoBanco = conection.adicionarComentario(coment, user.getId(), Integer.parseInt(id_mov));
 
         if(enviadoAoBanco){
