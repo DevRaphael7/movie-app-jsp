@@ -114,7 +114,7 @@
 
                     <% if(Integer.parseInt(item.getDataLancamento().split("-")[0]) == dataAtual.getYear() 
                         &&
-                        Integer.parseInt(item.getDataLancamento().split("-")[1]) == dataAtual.getMonthValue()) { %>
+                        Integer.parseInt(item.getDataLancamento().split("-")[1]) == dataAtual.getMonthValue() - 1) { %>
                     <div class="img__card__big" imgRowF>
                         <img
                             src="<%= item.getCover() %>">

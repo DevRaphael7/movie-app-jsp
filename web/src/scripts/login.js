@@ -6,10 +6,12 @@ const inputForm = document.querySelectorAll("[fieldForm]")
 const submitButton = document.getElementById("submitButton")
 const passwordHideBtn = document.getElementById("passBtn")
 const errorFormRequest = document.querySelector('[errorRequest]')
+const loading = document.querySelector("[loading]")
 
 let hideOrShowPassword = false;
 
 form.addEventListener('submit', e => {
+    loading.classList
     errorFormRequest.innerHTML  = ""
     if(!validarFormulario()){
         e.preventDefault();

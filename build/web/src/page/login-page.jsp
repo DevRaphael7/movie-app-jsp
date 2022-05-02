@@ -48,6 +48,7 @@
                                 <button class="form__button">
                                     <p>Login</p>
                                 </button>
+                                <jsp:include page="./components/spinner.jsp" />
                             </div>
                             <p style="text-align: center; margin-top: 6vh;" class="cad__text">Não é cadastrado? 
                                 <a href="./Cadastro.jsp">Cadastra-se!</a></p>
@@ -58,6 +59,7 @@
             </div>
         </div>
     </section>
+    
     <script src="../scripts/login.js"></script>
     </body>
 </html>

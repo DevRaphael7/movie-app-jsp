@@ -67,9 +67,9 @@
                 <a href="home-page.jsp" style="text-decoration: none;"><li>Voltar</li></a>
             </ul>
             <form name="formularioPesquisa" method="post" action="search-page.jsp">
-                <div class="search__bar" onblur="desfazerPesquisaSearchBar()" searchBarContainer>
+                <div class="search__bar" searchBarContainer>
                     <div style='display: flex'>
-                        <input type="search" placeholder="Busca" name="searchField" onkeydown="makePOSTRequest('<%=url%>')"
+                        <input type="search" placeholder="Busca" name="searchField" onkeyup="makePOSTRequest('<%=url%>')" 
                             autocomplete="off">
                         <button 
                             type="submit"
@@ -151,6 +151,7 @@
             </div>
 
             <section comentsContainerList></section>
+            <jsp:include page="./components/spinner.jsp" />
             
         </section>
             

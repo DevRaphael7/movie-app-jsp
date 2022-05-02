@@ -1,6 +1,8 @@
 let searchMovieCont = document.querySelector('[searchMovieCont]')
 let searchBarContainer = document.querySelector('[searchBarContainer')
 
+console.log(searchMovieCont)
+
 formularioPesquisa.searchField.addEventListener('blur', () => {
     searchBarContainer.addEventListener('mouseleave', (e) => {   
         searchMovieCont.classList.remove("show")
@@ -27,6 +29,7 @@ function makePOSTRequest(url){
 }
 
 async function respostaDoServidor() {
+    console.log("Pesquisando")
     var resposta = ajaxRequest.responseText
     if(resposta) searchMovieCont.classList.add("show")
     searchMovieCont.innerHTML = resposta
